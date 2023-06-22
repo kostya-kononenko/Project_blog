@@ -1,0 +1,7 @@
+<h1>List of posts</h1>
+<ul>
+{% for post in post_list %}
+  <li> <a href="{% url "blog:post-detail" post.pk %}" >{{ post.title }} </a> - {{ post.body }} -  {{ post.authors.first_name }} -  {{ post.authors.last_name }} </li>
+
+{% endfor %}
+</ul>
