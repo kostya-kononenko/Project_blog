@@ -1,3 +1,20 @@
+from django.contrib.auth.models import AbstractUser
 from django.db import models
 
-# Create your models here.
+
+class Author(AbstractUser):
+    avatar = models.ImageField()
+
+    class Meta:
+        verbose_name = "author"
+        verbose_name_plural = "authors"
+
+
+class Post(models.Model):
+    title = models.CharField(max_length=255)
+    authors = models.ForeignKey(Author, on_delete=models.CASCADE)
+    body = models.TextField()
+
+    def __str__(self):
+        return f"{self.title} '|' {self.authors}"
+
