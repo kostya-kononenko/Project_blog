@@ -12,6 +12,7 @@ class Author(AbstractUser):
 
 class Post(models.Model):
     title = models.CharField(max_length=255)
+    title_tag = models.CharField(max_length=255, default="tag")
     authors = models.ForeignKey(Author, on_delete=models.CASCADE)
     body = models.TextField()
 
