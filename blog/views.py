@@ -1,13 +1,14 @@
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth import authenticate, login
 
 from django.views.generic import ListView, DetailView, CreateView, UpdateView, DeleteView
-from django.urls import reverse_lazy
+from django.urls import reverse_lazy, reverse
 from django.views import generic, View
 
 from blog import forms
 from blog.forms import RegisterUserForm, PostForm
 from blog.models import Post, Author, Category
+from django.http import HttpResponseRedirect
 
 
 class LoginPageView(View):
@@ -57,6 +58,18 @@ class PostDetailView(DetailView):
     model = Post
     template_name = "blog/post_detail.html"
 
+    def get_context_data(self, **kwargs):
+        context = super(PostDetailView, self).get_context_data(**kwargs)
+        stuff = get_object_or_404(Post, id=self.kwargs["pk"])
+        total_likes = stuff.total_likes()
+
+        liked = False
+        if stuff.likes.filter(id=self.request.user.id).exists():
+            liked = True
+        context["total_likes"] = total_likes
+        context["liked"] = liked
+        return context
+
 
 class PostCreateView(CreateView):
     form_class = PostForm
@@ -105,3 +118,13 @@ class CategoryDeleteView(DeleteView):
     template_name = "blog/category_delete_confirm.html"
     success_url = reverse_lazy("blog:category-list")
 
+
+def LikeView(request, pk):
+    post = get_object_or_404(Post, id=request.POST.get("post_id"))
+    if post.likes.filter(id=request.user.id).exists():
+        post.likes.remove(request.user)
+        liked = False
+    else:
+        post.likes.add(request.user)
+        liked = True
+    return HttpResponseRedirect(reverse("blog:post-detail", args=[str(pk)]))
