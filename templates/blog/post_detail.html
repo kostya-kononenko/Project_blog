@@ -3,6 +3,23 @@
 
 <div class="container">
 {% block content %}
-<body> {{ post.title }} - {{ post.body }} -  {{ post.authors.first_name }} -  {{ post.authors.last_name }} </body>
-{% endblock %}
+   <p>Post Author id: {{ post.authors.id }}</p>
+
+
+
+<body>
+  <p> Title: {{ post.title }} </p>
+  <p> Body: {{ post.body | safe }} </p>
+  <p> Date: {{ post.post_date }}</p>
+</body>
+  <br><br>
+  {% if user.is_authenticated %}
+    {% if user.id == post.authors.id %}
+      <a href="{% url 'blog:post-delete' pk=post.id %}" class="btn btn-danger link-to-page">Delete</a>
+      <a href="{% url 'blog:post-update' pk=post.id %}" class="btn btn-secondary link-to-page">Update</a>
+      <br><br>
+      {% endif %}
+  {% endif %}
+  {% endblock %}
+
 </div>

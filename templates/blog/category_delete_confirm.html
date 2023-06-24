@@ -1,0 +1,13 @@
+{% extends "base.html" %}
+
+{% block content %}
+  <div class="container">
+    <h1>Delete category?</h1>
+      <form action="" method="post">
+        {% csrf_token %}
+
+        <input type="submit" value="Yes" class="btn btn-danger">
+       <a href="{% url "blog:category-list" %}" class="btn btn-success">No</a>
+      </form>
+  </div>
+{% endblock %}

@@ -1,0 +1,36 @@
+{% extends "base.html" %}
+
+
+{% block content %}
+  <div class="container">
+  <h2>Category list</h2>
+
+  <a href="{% url 'blog:category-create' %}" class="btn btn-dark"> Create</a>
+    <br><br>
+  {% if category_list %}
+    <table class="table">
+      <tr>
+        <th>ID</th>
+        <th>Name category</th>
+        <th>Update category</th>
+        <th>Delete category</th>
+      </tr>
+      {% for category in category_list %}
+        <tr>
+        <td>{{ category.id }}</td>
+        <td><a href="{% url "blog:category-detail" pk=category.id %} ">{{ category.name }}</a></td>
+        <td><a style="color: green" href="{% url "blog:category-update" pk=category.id %} ">Update</a></td>
+          <td><a style="color: red" href="{% url "blog:category-delete" pk=category.id %} ">Delete</a></td>
+        </tr>
+      {% endfor %}
+    </table>
+{#    <div class="container">#}
+{#    {% block pagination %}#}
+{#        {% include "includes/pagination.html" %}#}
+{#    {% endblock %}#}
+{#      </div>#}
+  {% else %}
+    <p>There are no position</p>
+  {% endif %}
+  </div>
+{% endblock %}

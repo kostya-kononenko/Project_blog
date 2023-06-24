@@ -2,7 +2,7 @@ from django.contrib import admin
 from django.contrib.auth.admin import UserAdmin
 
 
-from blog.models import Post, Author
+from blog.models import Post, Author, Category
 
 
 @admin.register(Author)
@@ -36,3 +36,6 @@ class PostAdmin(admin.ModelAdmin):
     ]
     search_fields = ("title",)
     list_filter = ("title",)
+
+
+admin.site.register(Category)
