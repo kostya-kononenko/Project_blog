@@ -42,6 +42,7 @@ INSTALLED_APPS = [
     "crispy_forms",
     "debug_toolbar",
     "blog",
+    "ckeditor",
 ]
 
 MIDDLEWARE = [

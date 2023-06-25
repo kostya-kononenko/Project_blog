@@ -24,28 +24,44 @@ class RegisterUserForm(forms.ModelForm):
     username = forms.CharField(
         widget=forms.TextInput(
             attrs={
-                "placeholder": "Username",
+                "placeholder": "Enter username",
+                "class": "form-control"
+            }
+        ))
+
+    first_name = forms.CharField(
+        widget=forms.TextInput(
+            attrs={
+                "placeholder": "Enter your first name",
+                "class": "form-control"
+            }
+        ))
+
+    last_name = forms.CharField(
+        widget=forms.TextInput(
+            attrs={
+                "placeholder": "Enter you last name",
                 "class": "form-control"
             }
         ))
     email = forms.EmailField(
         widget=forms.EmailInput(
             attrs={
-                "placeholder": "Email",
+                "placeholder": "Enter e-mail",
                 "class": "form-control"
             }
         ))
     password1 = forms.CharField(
         widget=forms.PasswordInput(
             attrs={
-                "placeholder": "Password",
+                "placeholder": "Enter password",
                 "class": "form-control"
             }
         ))
     password2 = forms.CharField(
         widget=forms.PasswordInput(
             attrs={
-                "placeholder": "Password check",
+                "placeholder": "Enter password again",
                 "class": "form-control"
             }
         ))
@@ -83,6 +99,8 @@ class RegisterUserForm(forms.ModelForm):
                   "email",
                   "password1",
                   "password2",
+                  "first_name",
+                  "last_name",
                   )
 
 
