@@ -97,11 +97,52 @@ class RegisterUserForm(forms.ModelForm):
     class Meta:
         model = Author
         fields = ("username",
+                  "first_name",
+                  "last_name",
                   "email",
                   "password1",
                   "password2",
+                  )
+
+
+class RegisterEditUserForm(forms.ModelForm):
+    username = forms.CharField(
+        widget=forms.TextInput(
+            attrs={
+                "placeholder": "Enter username",
+                "class": "form-control"
+            }
+        ))
+
+    first_name = forms.CharField(
+        widget=forms.TextInput(
+            attrs={
+                "placeholder": "Enter your first name",
+                "class": "form-control"
+            }
+        ))
+
+    last_name = forms.CharField(
+        widget=forms.TextInput(
+            attrs={
+                "placeholder": "Enter you last name",
+                "class": "form-control"
+            }
+        ))
+    email = forms.EmailField(
+        widget=forms.EmailInput(
+            attrs={
+                "placeholder": "Enter e-mail",
+                "class": "form-control"
+            }
+        ))
+
+    class Meta:
+        model = Author
+        fields = ("username",
                   "first_name",
                   "last_name",
+                  "email",
                   )
 
 

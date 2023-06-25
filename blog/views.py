@@ -3,12 +3,14 @@ from django.contrib.auth import authenticate, login
 
 from django.views.generic import ListView, DetailView, CreateView, UpdateView, DeleteView
 from django.urls import reverse_lazy, reverse
-from django.views import generic, View
+from django.views import View
 
 from blog import forms
-from blog.forms import RegisterUserForm, PostForm
-from blog.models import Post, Author, Category
+from blog.forms import RegisterUserForm, PostForm, RegisterEditUserForm
+from blog.models import Post, Category
 from django.http import HttpResponseRedirect
+from django.contrib.auth.views import PasswordChangeView
+from django.contrib.auth.forms import PasswordChangeForm
 
 
 class LoginPageView(View):
@@ -42,10 +44,28 @@ class LoginPageView(View):
 
 
 class RegisterUserView(CreateView):
-    model = Author
-    template_name = "registration/registration.html"
     form_class = RegisterUserForm
+    template_name = "registration/registration.html"
     success_url = reverse_lazy("login")
+
+
+class EditUserView(UpdateView):
+    form_class = RegisterEditUserForm
+    template_name = "registration/edit_registration.html"
+    success_url = reverse_lazy("blog:post-list")
+
+    def get_object(self, queryset=None):
+        return self.request.user
+
+
+class EditUserPasswordView(PasswordChangeView):
+    form_class = PasswordChangeForm
+    success_url = reverse_lazy("password-success")
+    template_name = "registration/password_change.html"
+
+
+def password_success(request):
+    return render(request, "registration/password_success.html")
 
 
 class PostListView(ListView):

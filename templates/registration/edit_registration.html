@@ -4,13 +4,13 @@
 
 {% block content %}
   <div class="container">
-    <h2>Registration</h2>
+    <h2>Edit profile</h2>
       <br><br>
       <form method="post">
           {% csrf_token %}
           {{ form | crispy }}
         <br>
-         <button class="btn btn-secondary">Register</button>
+         <button class="btn btn-secondary">Update profile</button>
       </form>
   </div>
 {% endblock %}

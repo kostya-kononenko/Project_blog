@@ -18,8 +18,7 @@ from django.contrib import admin
 from django.urls import path, include
 from django.conf import settings
 from django.conf.urls.static import static
-
-from blog.views import LoginPageView, RegisterUserView
+from blog.views import RegisterUserView, EditUserView, EditUserPasswordView, password_success
 
 urlpatterns = [
     path("admin/", admin.site.urls),
@@ -27,4 +26,8 @@ urlpatterns = [
     path("", include("blog.urls", namespace="blog")),
     path("accounts/", include("django.contrib.auth.urls")),
     path("accounts/register/", RegisterUserView.as_view(), name="register"),
+    path("accounts/register/edit/", EditUserView.as_view(), name="register-edit"),
+    path("accounts/password/edit/", EditUserPasswordView.as_view(), name="password-change"),
+    path("accounts/password/password_success/", password_success, name="password-success"),
+
               ] + static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
