@@ -29,5 +29,4 @@ urlpatterns = [
     path("accounts/register/edit/", EditUserView.as_view(), name="register-edit"),
     path("accounts/password/edit/", EditUserPasswordView.as_view(), name="password-change"),
     path("accounts/password/password_success/", password_success, name="password-success"),
-
-              ] + static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
+              ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

@@ -11,6 +11,10 @@
   <p> Title: {{ post.title }} </p>
   <p> Body: {{ post.body | safe }} </p>
   <p> Date: {{ post.post_date }}</p>
+  {% if post.post_image %}
+    <img src="{{ post.post_image.url }}">
+  {% endif %}
+
 </body>
   <br><br>
   {% if user.is_authenticated %}

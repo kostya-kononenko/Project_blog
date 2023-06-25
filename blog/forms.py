@@ -8,7 +8,7 @@ from blog.models import Author, Post, Category
 class PostForm(forms.ModelForm):
     class Meta:
         model = Post
-        fields = ("title", "title_tag", "authors", "body", "category", "snippet")
+        fields = ("title", "title_tag", "authors", "body", "category", "snippet", "post_image")
 
         widgets = {
             "title": forms.TextInput(attrs={"class": "form-control"}),
@@ -17,6 +17,7 @@ class PostForm(forms.ModelForm):
             "body": forms.TextInput(attrs={"class": "form-control"}),
             "category": forms.SelectMultiple(attrs={"class": "form-control"}),
             "snippet": forms.TextInput(attrs={"class": "form-control"}),
+            # "post_image": forms.ImageField()
 
         }
 

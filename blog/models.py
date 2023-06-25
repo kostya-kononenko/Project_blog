@@ -28,6 +28,7 @@ class Post(models.Model):
     category = models.ManyToManyField(Category, related_name="posts")
     likes = models.ManyToManyField(Author, related_name="blog_post")
     snippet = models.CharField(max_length=255)
+    post_image = models.ImageField(null=True, blank=True, upload_to="images/")
 
 
     def total_likes(self):
