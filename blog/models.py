@@ -27,7 +27,7 @@ class Post(models.Model):
     post_date = models.DateTimeField(auto_now_add=True)
     category = models.ManyToManyField(Category, related_name="posts")
     likes = models.ManyToManyField(Author, related_name="blog_post")
-    snippet = models.CharField(max_length=255, default="snippet")
+    snippet = models.CharField(max_length=255)
 
 
     def total_likes(self):

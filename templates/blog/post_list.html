@@ -7,7 +7,8 @@
 <ul>
 {% for post in post_list %}
   <li> <a href="{% url "blog:post-detail" post.pk %}" >{{ post.title }}</a> - {{ post.authors.first_name }} - {{ post.post_date }}
-    <p> {{ post.body | slice:":500" | safe}} </p>
+    <p>{{ post.snippet}}</p>
+{#    <p> {{ post.body | slice:":500" | safe}} </p>#}
      </li>
 {% endfor %}
 </ul>

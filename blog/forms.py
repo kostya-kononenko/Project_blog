@@ -8,7 +8,7 @@ from blog.models import Author, Post, Category
 class PostForm(forms.ModelForm):
     class Meta:
         model = Post
-        fields = ("title", "title_tag", "authors", "body", "category")
+        fields = ("title", "title_tag", "authors", "body", "category", "snippet")
 
         widgets = {
             "title": forms.TextInput(attrs={"class": "form-control"}),
@@ -16,6 +16,7 @@ class PostForm(forms.ModelForm):
             "authors": forms.TextInput(attrs={"class": "form-control", "value": "", "id": "elder", "type": "hidden"}),
             "body": forms.TextInput(attrs={"class": "form-control"}),
             "category": forms.SelectMultiple(attrs={"class": "form-control"}),
+            "snippet": forms.TextInput(attrs={"class": "form-control"}),
 
         }
 
