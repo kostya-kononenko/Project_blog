@@ -18,13 +18,20 @@ from django.contrib import admin
 from django.urls import path, include
 from django.conf import settings
 from django.conf.urls.static import static
-from blog.views import RegisterUserView, EditUserView, EditUserPasswordView, password_success
+from blog.views import (
+    RegisterUserView,
+    EditUserView,
+    EditUserPasswordView,
+    password_success,
+    UserDetailView
+)
 
 urlpatterns = [
     path("admin/", admin.site.urls),
     path("__debug__/", include("debug_toolbar.urls")),
     path("", include("blog.urls", namespace="blog")),
     path("accounts/", include("django.contrib.auth.urls")),
+    path("accounts/<int:pk>/", UserDetailView.as_view(), name="user-detail"),
     path("accounts/register/", RegisterUserView.as_view(), name="register"),
     path("accounts/register/edit/", EditUserView.as_view(), name="register-edit"),
     path("accounts/password/edit/", EditUserPasswordView.as_view(), name="password-change"),

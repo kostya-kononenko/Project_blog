@@ -7,7 +7,7 @@ from django.views import View
 
 from blog import forms
 from blog.forms import RegisterUserForm, PostForm, RegisterEditUserForm
-from blog.models import Post, Category
+from blog.models import Post, Category, Author
 from django.http import HttpResponseRedirect
 from django.contrib.auth.views import PasswordChangeView
 from django.contrib.auth.forms import PasswordChangeForm
@@ -66,6 +66,17 @@ class EditUserPasswordView(PasswordChangeView):
 
 def password_success(request):
     return render(request, "registration/password_success.html")
+
+
+class UserDetailView(DetailView):
+    model = Author
+    template_name = "registration/user_detail.html"
+
+    def get_context_data(self, **kwargs):
+        context = super(UserDetailView, self).get_context_data(**kwargs)
+        page_user = get_object_or_404(Author, id=self.kwargs["pk"])
+        context["page_user"] = page_user
+        return context
 
 
 class PostListView(ListView):
