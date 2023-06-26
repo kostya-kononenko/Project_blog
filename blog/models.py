@@ -11,6 +11,7 @@ class Author(AbstractUser):
     facebook_url = models.CharField(max_length=255, null=True, blank=True)
     twitter_url = models.CharField(max_length=255, null=True, blank=True)
     instagram_url = models.CharField(max_length=255, null=True, blank=True)
+    follows = models.ManyToManyField("self", related_name="followed_by", symmetrical=False, blank=True)
 
     class Meta:
         verbose_name = "author"

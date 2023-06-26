@@ -18,6 +18,7 @@ class AuthorAdmin(UserAdmin):
             "facebook_url",
             "twitter_url",
             "instagram_url",
+            "follows",
             )}),)
     )
     add_fieldsets = UserAdmin.add_fieldsets + (
@@ -34,6 +35,7 @@ class AuthorAdmin(UserAdmin):
                         "facebook_url",
                         "twitter_url",
                         "instagram_url",
+                        "follows",
                     )
                 },
             ),
