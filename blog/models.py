@@ -35,7 +35,6 @@ class Post(models.Model):
     snippet = models.CharField(max_length=255)
     post_image = models.ImageField(null=True, blank=True, upload_to="images/")
 
-
     def total_likes(self):
         return self.likes.count()
 
@@ -44,3 +43,13 @@ class Post(models.Model):
 
     def get_absolute_url(self):
         return reverse("blog:post-list")
+
+
+class Comment(models.Model):
+    post = models.ForeignKey(Post, on_delete=models.CASCADE, related_query_name="comments")
+    name = models.CharField(max_length=255)
+    body = models.TextField()
+    comment_date = models.DateTimeField(auto_now_add=True)
+
+    def total_comment(self):
+        return self.name.count()
