@@ -1,4 +1,5 @@
 {% include "base.html" %}
+{% load static %}
 
 
 <div class="container">
@@ -40,7 +41,42 @@
     {% endif %}
     - {{ total_likes }} Likes
   </form>
-  {% endblock %}
+  <br><br>
+
+  <div class="card mb-3">
+  <div class="row g-0">
+    <div class="col-md-2">
+      {% if post.authors.avatar %}
+        <img src="{{ post.authors.avatar.url}}" class="img-fluid rounded-start" alt="foto_profile">
+      {% else %}
+        <img src="{% static "blog/images/defaulte_foto.jpeg" %}" class="img-fluid rounded-start" alt="foto_profile">
+
+      {% endif %}
+    </div>
+    <div class="col-md-10">
+      <div class="card-body">
+        <h5 class="card-title">{{ post.authors.first_name }} {{ post.authors.last_name }}</h5>
+        <h5 class="card-title">{{ post.authors.date_of_birth}} </h5>
+
+        <p class="card-text">{{ post.authors.bio }}</p>
+        <p class = "small text-muted">
+          {% if post.authors.facebook_url %}
+            <a href="{{ post.authors.facebook_url }}">Facebook</a> |
+          {% endif %}
+          {% if post.authors.twitter_url %}
+            <a href="{{ post.authors.twitter_url }}">Twitter</a> |
+          {% endif %}
+          {% if post.authors.instagram_url %}
+            <a href="{{ post.authors.instagram_url }}">Instagram</a>
+        {% endif %}
+        </p>
+        <p class="card-text"><small class="text-body-secondary">Last join site {{ post.authors.last_login}}</small></p>
+      </div>
+    </div>
+  </div>
+</div>
+
+{% endblock %}
 <br><br>
 
 </div>

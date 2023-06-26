@@ -7,9 +7,18 @@ from blog.models import Post, Author, Category
 
 @admin.register(Author)
 class AuthorAdmin(UserAdmin):
-    list_display = UserAdmin.list_display + ("avatar",)
+    list_display = UserAdmin.list_display + ("bio",
+                                             "date_of_birth")
+
     fieldsets = UserAdmin.fieldsets + (
-        (("Additional info", {"fields": ("avatar",)}),)
+        (("Additional info", {"fields": (
+            "bio",
+            "date_of_birth",
+            "avatar",
+            "facebook_url",
+            "twitter_url",
+            "instagram_url",
+            )}),)
     )
     add_fieldsets = UserAdmin.add_fieldsets + (
         (
@@ -19,7 +28,12 @@ class AuthorAdmin(UserAdmin):
                     "fields": (
                         "first_name",
                         "last_name",
+                        "bio",
+                        "date_of_birth",
                         "avatar",
+                        "facebook_url",
+                        "twitter_url",
+                        "instagram_url",
                     )
                 },
             ),

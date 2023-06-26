@@ -17,8 +17,6 @@ class PostForm(forms.ModelForm):
             "body": forms.TextInput(attrs={"class": "form-control"}),
             "category": forms.SelectMultiple(attrs={"class": "form-control"}),
             "snippet": forms.TextInput(attrs={"class": "form-control"}),
-            # "post_image": forms.ImageField()
-
         }
 
 
@@ -138,12 +136,64 @@ class RegisterEditUserForm(forms.ModelForm):
             }
         ))
 
+    bio = forms.CharField(
+        widget=forms.TextInput(
+            attrs={
+                "placeholder": "Enter your biography",
+                "class": "form-control"
+            }
+        ))
+
+    date_of_birth = forms.DateField(
+        widget=forms.TextInput(
+            attrs={
+                "class": "form-control"
+            }
+        ))
+
+    # avatar = forms.ImageField(
+    #     widget=forms.ImageField(
+    #         attrs={
+    #             "class": "form-control"
+    #         }
+    #     ))
+
+    facebook_url = forms.CharField(
+        widget=forms.TextInput(
+            attrs={
+                "placeholder": "Enter your facebook url",
+                "class": "form-control"
+            }
+        ))
+
+    twitter_url = forms.CharField(
+        widget=forms.TextInput(
+            attrs={
+                "placeholder": "Enter your twitter url",
+                "class": "form-control"
+            }
+        ))
+
+    instagram_url = forms.CharField(
+        widget=forms.TextInput(
+            attrs={
+                "placeholder": "Enter your instagram url",
+                "class": "form-control"
+            }
+        ))
+
     class Meta:
         model = Author
         fields = ("username",
                   "first_name",
                   "last_name",
                   "email",
+                  "bio",
+                  "date_of_birth",
+                  "avatar",
+                  "facebook_url",
+                  "twitter_url",
+                  "instagram_url",
                   )
 
 
