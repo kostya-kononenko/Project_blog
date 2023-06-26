@@ -1,13 +1,9 @@
 {% include "base.html" %}
 {% load static %}
 
-
 <div class="container">
 {% block content %}
    <p>Post Author id: {{ post.authors.id }}</p>
-
-
-
 <body>
   <p> Title: {{ post.title }} </p>
   <p> Body: {{ post.body | safe }} </p>
@@ -15,9 +11,8 @@
   {% if post.post_image %}
     <img src="{{ post.post_image.url }}">
   {% endif %}
-
 </body>
-  <br><br>
+  <br>
   {% if user.is_authenticated %}
     {% if user.id == post.authors.id %}
       <a href="{% url 'blog:post-delete' pk=post.id %}" class="btn btn-danger link-to-page">Delete</a>
@@ -30,7 +25,6 @@
   <form action="{% url "blog:like_post" post.pk%}" method="POST">
     {% csrf_token %}
     {% if user.is_authenticated %}
-
       {% if liked %}
         <button type="submit" name="post_id" value="{{ post.id }}" class="btn btn-danger btn-sm">Unlike</button>
       {% else %}
@@ -41,9 +35,7 @@
     {% endif %}
     - {{ total_likes }} Likes
   </form>
-  <br><br>
-
-
+<br>
   <div class="card mb-3">
   <div class="row g-0">
     <div class="col-md-2">
@@ -75,7 +67,22 @@
     </div>
   </div>
 </div>
+  <br>
+    <h4>Comments</h4>
+      {% if not post.comments.all %}
+        No Comments Yet <a href="{% url "blog:comment-create" post.pk %}">Add one</a>
+      {% else %}
+        <a href="{% url "blog:comment-create" post.pk %}">Add comment</a>
+        <br><br>
+        {% for comment in post.comments.all %}
+          <strong>
+            <p>{{ comment.name }} - {{ comment.comment_date }}</p>
+          </strong>
+            <p> {{ comment.body }} </p>
+          <hr>
+          <br>
+        {% endfor %}
+      {% endif %}
+  <br><br>
 {% endblock %}
-<br><br>
-
 </div>

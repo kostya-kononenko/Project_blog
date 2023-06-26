@@ -46,10 +46,13 @@ class Post(models.Model):
 
 
 class Comment(models.Model):
-    post = models.ForeignKey(Post, on_delete=models.CASCADE, related_query_name="comments")
+    post = models.ForeignKey(Post, on_delete=models.CASCADE, related_name="comments")
     name = models.CharField(max_length=255)
     body = models.TextField()
     comment_date = models.DateTimeField(auto_now_add=True)
+
+    def __str__(self):
+        return f"{self.name} '|' {self.comment_date}"
 
     def total_comment(self):
         return self.name.count()

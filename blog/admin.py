@@ -2,7 +2,7 @@ from django.contrib import admin
 from django.contrib.auth.admin import UserAdmin
 
 
-from blog.models import Post, Author, Category
+from blog.models import Post, Author, Category, Comment
 
 
 @admin.register(Author)
@@ -50,6 +50,16 @@ class PostAdmin(admin.ModelAdmin):
     ]
     search_fields = ("title",)
     list_filter = ("title",)
+
+
+@admin.register(Comment)
+class CommentAdmin(admin.ModelAdmin):
+    list_display = [
+        "name",
+        "comment_date",
+    ]
+    search_fields = ("name",)
+    list_filter = ("name",)
 
 
 admin.site.register(Category)

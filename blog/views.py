@@ -6,8 +6,8 @@ from django.urls import reverse_lazy, reverse
 from django.views import View
 
 from blog import forms
-from blog.forms import RegisterUserForm, PostForm, RegisterEditUserForm
-from blog.models import Post, Category, Author
+from blog.forms import RegisterUserForm, PostForm, RegisterEditUserForm, CommentForm
+from blog.models import Post, Category, Author, Comment
 from django.http import HttpResponseRedirect
 from django.contrib.auth.views import PasswordChangeView
 from django.contrib.auth.forms import PasswordChangeForm
@@ -159,3 +159,13 @@ def LikeView(request, pk):
         post.likes.add(request.user)
         liked = True
     return HttpResponseRedirect(reverse("blog:post-detail", args=[str(pk)]))
+
+
+class CommentCreateView(CreateView):
+    form_class = CommentForm
+    template_name = "blog/comment_form.html"
+    success_url = reverse_lazy("blog:post-list")
+
+    def form_valid(self, form):
+        form.instance.post_id = self.kwargs["pk"]
+        return super().form_valid(form)

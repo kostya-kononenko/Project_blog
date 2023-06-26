@@ -2,10 +2,11 @@ from django import forms
 from django.contrib.auth import password_validation
 from django.core.exceptions import ValidationError
 
-from blog.models import Author, Post, Category
+from blog.models import Author, Post, Comment
 
 
 class PostForm(forms.ModelForm):
+
     class Meta:
         model = Post
         fields = ("title", "title_tag", "authors", "body", "category", "snippet", "post_image")
@@ -151,13 +152,6 @@ class RegisterEditUserForm(forms.ModelForm):
             }
         ))
 
-    # avatar = forms.ImageField(
-    #     widget=forms.ImageField(
-    #         attrs={
-    #             "class": "form-control"
-    #         }
-    #     ))
-
     facebook_url = forms.CharField(
         widget=forms.TextInput(
             attrs={
@@ -212,3 +206,14 @@ class LoginForm(forms.Form):
                 "class": "form-control"
             }
         ))
+
+
+class CommentForm(forms.ModelForm):
+    class Meta:
+        model = Comment
+        fields = ("name", "body")
+
+        widgets = {
+            "name": forms.TextInput(attrs={"class": "form-control"}),
+            "body": forms.Textarea(attrs={"class": "form-control"}),
+        }

@@ -1,7 +1,19 @@
 from django.urls import path, include
 
-from blog.views import PostListView, PostDetailView, PostCreateView, PostUpdateView, PostDeleteView, CategoryListView, \
-    CategoryDetailView, CategoryCreateView, CategoryUpdateView, CategoryDeleteView, LikeView
+from blog.views import (
+    PostListView,
+    PostDetailView,
+    PostCreateView,
+    PostUpdateView,
+    PostDeleteView,
+    CategoryListView,
+    CategoryDetailView,
+    CategoryCreateView,
+    CategoryUpdateView,
+    CategoryDeleteView,
+    LikeView,
+    CommentCreateView
+)
 
 
 urlpatterns = [
@@ -10,6 +22,8 @@ urlpatterns = [
     path("post/create/", PostCreateView.as_view(), name="post-create"),
     path("post/<int:pk>/update/", PostUpdateView.as_view(), name="post-update"),
     path("post/<int:pk>/delete/", PostDeleteView.as_view(), name="post-delete"),
+
+    path("post/<int:pk>/comment/", CommentCreateView.as_view(), name="comment-create"),
 
     path("category/", CategoryListView.as_view(), name="category-list"),
     path("category/<int:pk>", CategoryDetailView.as_view(), name="category-detail"),
