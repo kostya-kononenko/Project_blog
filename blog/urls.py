@@ -12,7 +12,8 @@ from blog.views import (
     CategoryUpdateView,
     CategoryDeleteView,
     LikeView,
-    CommentCreateView
+    CommentCreateView,
+    ProfileListView
 )
 
 
@@ -22,7 +23,6 @@ urlpatterns = [
     path("post/create/", PostCreateView.as_view(), name="post-create"),
     path("post/<int:pk>/update/", PostUpdateView.as_view(), name="post-update"),
     path("post/<int:pk>/delete/", PostDeleteView.as_view(), name="post-delete"),
-
     path("post/<int:pk>/comment/", CommentCreateView.as_view(), name="comment-create"),
 
     path("category/", CategoryListView.as_view(), name="category-list"),
@@ -31,6 +31,8 @@ urlpatterns = [
     path("category/<int:pk>/update/", CategoryUpdateView.as_view(), name="category-update"),
     path("category/<int:pk>/delete/", CategoryDeleteView.as_view(), name="category-delete"),
     path("like/<int:pk>", LikeView, name="like_post"),
+
+    path("profile_list", ProfileListView.as_view(), name="profile-list")
 
 ]
 

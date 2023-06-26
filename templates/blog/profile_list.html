@@ -1,0 +1,45 @@
+{% include "base.html" %}
+{% load crispy_forms_filters %}
+{% load static %}
+
+
+<div class="container">
+{% block content %}
+<h1>List of profile</h1>
+<ul>
+{% for profile in author_list %}
+  <div class="card mb-3">
+  <div class="row g-0">
+    <div class="col-md-2">
+      {% if profile.avatar %}
+        <img src="{{ profile.avatar.url}}" class="img-fluid rounded-start" alt="foto_profile">
+      {% else %}
+        <img src="{% static "blog/images/defaulte_foto.jpeg" %}" class="img-fluid rounded-start" alt="foto_profile">
+      {% endif %}
+    </div>
+    <div class="col-md-10">
+      <div class="card-body">
+        <h5 class="card-title">{{ profile.first_name }} {{ profile.last_name }}</h5>
+        <h5 class="card-title">{{ profile.date_of_birth}} </h5>
+        <p class="card-text">{{ profile.bio }}</p>
+        <p class = "small text-muted">
+          {% if profile.facebook_url %}
+            <a href="{{ profile.facebook_url }}">Facebook</a> |
+          {% endif %}
+          {% if profile.twitter_url %}
+            <a href="{{ profile.twitter_url }}">Twitter</a> |
+          {% endif %}
+          {% if profile.instagram_url %}
+            <a href="{{ profile.instagram_url }}">Instagram</a>
+        {% endif %}
+        </p>
+        <p class="card-text"><small class="text-body-secondary">Last join site {{ profile.last_login}}</small></p>
+      </div>
+    </div>
+  </div>
+</div>
+{% endfor %}
+</ul>
+{% endblock %}
+</div>
+

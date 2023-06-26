@@ -169,3 +169,8 @@ class CommentCreateView(CreateView):
     def form_valid(self, form):
         form.instance.post_id = self.kwargs["pk"]
         return super().form_valid(form)
+
+
+class ProfileListView(ListView):
+    model = Author
+    template_name = "blog/profile_list.html"
