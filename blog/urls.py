@@ -13,7 +13,6 @@ from blog.views import (
     CategoryDeleteView,
     LikeView,
     CommentCreateView,
-    ProfileListView
 )
 
 
@@ -31,8 +30,6 @@ urlpatterns = [
     path("category/<int:pk>/update/", CategoryUpdateView.as_view(), name="category-update"),
     path("category/<int:pk>/delete/", CategoryDeleteView.as_view(), name="category-delete"),
     path("like/<int:pk>", LikeView, name="like_post"),
-
-    path("profile_list", ProfileListView.as_view(), name="profile-list")
 
 ]
 

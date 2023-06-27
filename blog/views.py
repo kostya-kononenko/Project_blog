@@ -5,8 +5,7 @@ from django.views.generic import ListView, DetailView, CreateView, UpdateView, D
 from django.urls import reverse_lazy, reverse
 from django.views import View
 
-from blog import forms
-from blog.forms import RegisterUserForm, PostForm, RegisterEditUserForm, CommentForm
+from blog.forms import RegisterUserForm, PostForm, RegisterEditUserForm, CommentForm, LoginForm
 from blog.models import Post, Category, Author, Comment
 from django.http import HttpResponseRedirect
 from django.contrib.auth.views import PasswordChangeView
@@ -15,7 +14,7 @@ from django.contrib.auth.forms import PasswordChangeForm
 
 class LoginPageView(View):
     template_name = "registration/login.html"
-    form_class = forms.LoginForm
+    form_class = LoginForm
 
     def get(self, request):
         form = self.form_class()
@@ -43,40 +42,58 @@ class LoginPageView(View):
                       )
 
 
-class RegisterUserView(CreateView):
+class AuthorRegisterView(CreateView):
     form_class = RegisterUserForm
     template_name = "registration/registration.html"
     success_url = reverse_lazy("login")
 
 
-class EditUserView(UpdateView):
+class AuthorEditView(UpdateView):
     form_class = RegisterEditUserForm
-    template_name = "registration/edit_registration.html"
+    template_name = "registration/author_edit_registration.html"
     success_url = reverse_lazy("blog:post-list")
 
     def get_object(self, queryset=None):
         return self.request.user
 
 
-class EditUserPasswordView(PasswordChangeView):
+class AuthorEditPasswordView(PasswordChangeView):
     form_class = PasswordChangeForm
-    success_url = reverse_lazy("password-success")
-    template_name = "registration/password_change.html"
+    template_name = "registration/author_password_change.html"
+    success_url = reverse_lazy("author-password-success")
 
 
 def password_success(request):
-    return render(request, "registration/password_success.html")
+    return render(request, "registration/author_password_success.html")
 
 
-class UserDetailView(DetailView):
+class AuthorListView(ListView):
     model = Author
-    template_name = "registration/user_detail.html"
+    template_name = "registration/author_list.html"
+
+
+class AuthorDetailView(DetailView):
+    model = Author
+    template_name = "registration/author_detail.html"
 
     def get_context_data(self, **kwargs):
-        context = super(UserDetailView, self).get_context_data(**kwargs)
-        page_user = get_object_or_404(Author, id=self.kwargs["pk"])
-        context["page_user"] = page_user
+        context = super().get_context_data(**kwargs)
+        # Add in a QuerySet of all the users posts
+        context['object_list'] = Post.objects.filter(authors=self.object)
+        context['author'] = self.object
         return context
+
+
+def follow_user(request, pk):
+    follow_user = Author.objects.get(id=pk)
+    if request.method == "POST":
+        current_user_profile = request.user
+        action = request.POST['follow']
+        if action == "unfollow":
+            current_user_profile.follows.remove(follow_user)
+        elif action == "follow":
+            current_user_profile.follows.add(follow_user)
+    return render(request, "registration/author_detail.html", {"follow_user": follow_user})
 
 
 class PostListView(ListView):
@@ -169,8 +186,3 @@ class CommentCreateView(CreateView):
     def form_valid(self, form):
         form.instance.post_id = self.kwargs["pk"]
         return super().form_valid(form)
-
-
-class ProfileListView(ListView):
-    model = Author
-    template_name = "blog/profile_list.html"

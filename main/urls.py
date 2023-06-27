@@ -19,11 +19,13 @@ from django.urls import path, include
 from django.conf import settings
 from django.conf.urls.static import static
 from blog.views import (
-    RegisterUserView,
-    EditUserView,
-    EditUserPasswordView,
+    AuthorRegisterView,
+    AuthorEditPasswordView,
     password_success,
-    UserDetailView
+    AuthorDetailView,
+    AuthorListView,
+    AuthorEditView,
+    follow_user,
 )
 
 urlpatterns = [
@@ -31,9 +33,15 @@ urlpatterns = [
     path("__debug__/", include("debug_toolbar.urls")),
     path("", include("blog.urls", namespace="blog")),
     path("accounts/", include("django.contrib.auth.urls")),
-    path("accounts/<int:pk>/", UserDetailView.as_view(), name="user-detail"),
-    path("accounts/register/", RegisterUserView.as_view(), name="register"),
-    path("accounts/register/edit/", EditUserView.as_view(), name="register-edit"),
-    path("accounts/password/edit/", EditUserPasswordView.as_view(), name="password-change"),
-    path("accounts/password/password_success/", password_success, name="password-success"),
+    path("accounts/<int:pk>/", AuthorDetailView.as_view(), name="author-detail"),
+    path("accounts/user_list", AuthorListView.as_view(), name="author-list"),
+
+    path('accounts/follow/<int:pk>/', follow_user, name="author-follow"),
+
+
+
+    path("accounts/register/", AuthorRegisterView.as_view(), name="author-register"),
+    path("accounts/register/edit/", AuthorEditView.as_view(), name="author-register-edit"),
+    path("accounts/password/edit/", AuthorEditPasswordView.as_view(), name="author-password-change"),
+    path("accounts/password/password_success/", password_success, name="author-password-success"),
               ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

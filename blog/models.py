@@ -13,6 +13,12 @@ class Author(AbstractUser):
     instagram_url = models.CharField(max_length=255, null=True, blank=True)
     follows = models.ManyToManyField("self", related_name="followed_by", symmetrical=False, blank=True)
 
+    def count_followers(self):
+        return self.follows.count()
+
+    def count_following(self):
+        return Author.objects.filter(follows=self).count()
+
     class Meta:
         verbose_name = "author"
         verbose_name_plural = "authors"

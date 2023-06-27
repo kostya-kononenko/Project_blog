@@ -17,7 +17,7 @@
           <a class="nav-link active" aria-current="page" href="{% url "logout" %}">Logout</a>
           </li>
           <li class="nav-item">
-          <a class="nav-link active" aria-current="page" href="{% url "blog:profile-list" %}">All users</a>
+          <a class="nav-link active" aria-current="page" href="{% url "author-list" %}">All users</a>
           </li>
 
           <li class="nav-item dropdown">
@@ -25,15 +25,15 @@
            {{ user.first_name }} {{ user.last_name }}
           </a>
           <ul class="dropdown-menu">
-            <li><a class="dropdown-item" href="{% url "register-edit" %}">Edit profile</a></li>
-            <li><a class="dropdown-item" href="{% url "user-detail" pk=user.id %}">See profile</a></li>
+            <li><a class="dropdown-item" href="{% url "author-register-edit" %}">Edit profile</a></li>
+            <li><a class="dropdown-item" href="{% url "author-detail" pk=user.id %}">See profile</a></li>
             <li><hr class="dropdown-divider"></li>
-            <li><a class="dropdown-item" href="{% url "password-change" %}">Change password</a></li>
+            <li><a class="dropdown-item" href="{% url "author-password-change" %}">Change password</a></li>
           </ul>
         </li>
         {% else %}
         <li class="nav-item">
-          <a class="nav-link active" aria-current="page" href="{% url "register" %}">Register</a>
+          <a class="nav-link active" aria-current="page" href="{% url "author-register" %}">Register</a>
         </li>
          <li class="nav-item">
           <a class="nav-link active" aria-current="page" href="{% url "login" %}">Login</a>

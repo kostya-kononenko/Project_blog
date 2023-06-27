@@ -51,7 +51,7 @@
         <h5 class="card-title">{{ post.authors.date_of_birth}} </h5>
         <p class="card-text">{{ post.authors.bio }}</p>
         <p class = "small text-muted">
-          <a href="{% url "user-detail" post.authors.id %} ">Profile Page</a> |
+          <a href="{% url "author-detail" post.authors.id %} ">Profile Page</a> |
           {% if post.authors.facebook_url %}
             <a href="{{ post.authors.facebook_url }}">Facebook</a> |
           {% endif %}

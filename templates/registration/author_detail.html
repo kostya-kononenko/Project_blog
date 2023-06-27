@@ -1,0 +1,68 @@
+{% extends "base.html" %}
+{% load crispy_forms_filters %}
+{% load static %}
+
+
+
+{% block content %}
+  <div class="container">
+    <h2>User profile</h2>
+  <div class="card mb-3">
+  <div class="row g-0">
+    <div class="col-md-2">
+      {% if author.avatar %}
+        <img src="{{ author.avatar.url}}" class="img-fluid rounded-start" alt="foto_profile">
+      {% else %}
+        <img src="{% static "blog/images/defaulte_foto.jpeg" %}" class="img-fluid rounded-start" alt="foto_profile">
+      {% endif %}
+    </div>
+    <div class="col-md-10">
+      <div class="card-body">
+        <h5 class="card-title">{{ author.username}}</h5>
+
+        <h5 class="card-title">{{ author.first_name }} {{author.last_name }}</h5>
+        <h5 class="card-title">{{ author.date_of_birth}} </h5>
+        <p class="card-text">{{ author.bio }}</p>
+        <p class = "small text-muted">
+          {% if author.facebook_url %}
+            <a href="{{ author.facebook_url }}">Facebook</a> |
+          {% endif %}
+          {% if author.twitter_url %}
+            <a href="{{ author.twitter_url }}">Twitter</a> |
+          {% endif %}
+          {% if author.instagram_url %}
+            <a href="{{ author.instagram_url }}">Instagram</a>
+          {% endif %}
+        </p>
+        <p class="card-text"><small class="text-body-secondary">Last join site {{ author.last_login}}</small></p>
+        <p><strong>Follows: </strong>
+          {% for following in author.follows.all %}
+           @ {{ following }}
+          {% endfor %} </p>
+
+        <p> <strong>Followed by: </strong>
+          {% for following in author.followed_by.all %}
+            @ {{ following }}
+          {% endfor %} </p>
+
+        <form method=POST action="{% url 'author-detail' author.id %}">
+          {% csrf_token %}
+          {% if author in author.follows.all %}
+            <button class="btn btn-outline-danger" name="follow"
+                    value="unfollow" type="submit">Unfollow @{{ author.username | lower }}
+            </button>
+          {% else %}
+           <button class="btn btn-outline-success" name="follow"
+                    value="follow" type="submit"> Follow @{{ author.username | lower }}
+            </button>
+          {% endif %}
+        </form>
+
+
+      </div>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}
+<br><br>
