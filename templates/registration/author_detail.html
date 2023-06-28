@@ -56,7 +56,10 @@
   <h1>List of author posts</h1>
   {% for post in author_post_list %}
     <div class="alert alert-dark">
-      <a href="{% url "blog:post-detail" pk=author.id %}" >{{ post.title }}</a> - {{ post.authors.first_name }} - {{ post.post_date }}
+      {{ post.title }}
+      - {{ post.authors.first_name }}
+      - {{ post.post_date }}
+      - <a href="{% url "blog:post-detail" pk=post.id %}"><i class="fa-solid fa-share" style="color: #2C009F"></i> </a>
       <p>{{ post.snippet}}</p>
     </div>
   {% endfor %}

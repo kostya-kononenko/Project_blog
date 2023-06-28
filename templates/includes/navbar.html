@@ -1,3 +1,6 @@
+{% load static %}
+
+
 <nav class="navbar navbar-expand-lg bg-body-tertiary">
   <div class="container-fluid">
     <a class="navbar-brand" href="{% url "blog:post-list" %}">MY BLOG</a>
@@ -31,6 +34,16 @@
             <li><a class="dropdown-item" href="{% url "author-password-change" %}">Change password</a></li>
           </ul>
         </li>
+
+          <li class="navbar-brand">
+
+          {% if user.avatar.url %}
+            <img src="{{ user.avatar.url}}" width=30 height=30 class="rounded-circle">
+          {% else %}
+            <img src="{% static "blog/images/defaulte_foto.jpeg" %}" width=30 height=30 class="rounded-circle">
+          {% endif %}
+          </li>
+
         {% else %}
         <li class="nav-item">
           <a class="nav-link active" aria-current="page" href="{% url "author-register" %}">Register</a>
