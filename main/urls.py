@@ -35,11 +35,7 @@ urlpatterns = [
     path("accounts/", include("django.contrib.auth.urls")),
     path("accounts/<int:pk>/", AuthorDetailView.as_view(), name="author-detail"),
     path("accounts/user_list", AuthorListView.as_view(), name="author-list"),
-
-    path('accounts/follow/<int:pk>/', follow_user, name="author-follow"),
-
-
-
+    path("follow_user/<int:pk>/", follow_user, name="author-follow"),
     path("accounts/register/", AuthorRegisterView.as_view(), name="author-register"),
     path("accounts/register/edit/", AuthorEditView.as_view(), name="author-register-edit"),
     path("accounts/password/edit/", AuthorEditPasswordView.as_view(), name="author-password-change"),

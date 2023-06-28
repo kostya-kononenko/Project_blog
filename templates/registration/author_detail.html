@@ -35,34 +35,31 @@
           {% endif %}
         </p>
         <p class="card-text"><small class="text-body-secondary">Last join site {{ author.last_login}}</small></p>
-        <p><strong>Follows: </strong>
+        <p><strong>Follows (num:{{ author.follows.all.count }}): </strong>
           {% for following in author.follows.all %}
            @ {{ following }}
           {% endfor %} </p>
 
-        <p> <strong>Followed by: </strong>
+        <p> <strong>Followed by(num:{{ author.followed_by.all.count }}): </strong>
           {% for following in author.followed_by.all %}
             @ {{ following }}
           {% endfor %} </p>
-
-        <form method=POST action="{% url 'author-detail' author.id %}">
-          {% csrf_token %}
-          {% if author in author.follows.all %}
-            <button class="btn btn-outline-danger" name="follow"
-                    value="unfollow" type="submit">Unfollow @{{ author.username | lower }}
-            </button>
-          {% else %}
-           <button class="btn btn-outline-success" name="follow"
-                    value="follow" type="submit"> Follow @{{ author.username | lower }}
-            </button>
-          {% endif %}
-        </form>
-
-
-      </div>
+            {% if user in author.follows.all %}
+                <a href="{% url 'author-follow' pk=author.id  %}" class="btn btn-outline-danger">Unfollow</a>
+              {% else %}
+                <a  href="{% url 'author-follow' pk=author.id  %}" class="btn btn-outline-success"> Follow </a>
+            {% endif %}
+        </div>
       </div>
     </div>
   </div>
+  <h1>List of author posts</h1>
+  {% for post in author_post_list %}
+    <div class="alert alert-dark">
+      <a href="{% url "blog:post-detail" pk=author.id %}" >{{ post.title }}</a> - {{ post.authors.first_name }} - {{ post.post_date }}
+      <p>{{ post.snippet}}</p>
+    </div>
+  {% endfor %}
 </div>
 {% endblock %}
 <br><br>

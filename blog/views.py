@@ -5,6 +5,7 @@ from django.views.generic import ListView, DetailView, CreateView, UpdateView, D
 from django.urls import reverse_lazy, reverse
 from django.views import View
 
+import blog
 from blog.forms import RegisterUserForm, PostForm, RegisterEditUserForm, CommentForm, LoginForm
 from blog.models import Post, Category, Author, Comment
 from django.http import HttpResponseRedirect
@@ -75,36 +76,39 @@ class AuthorListView(ListView):
 class AuthorDetailView(DetailView):
     model = Author
     template_name = "registration/author_detail.html"
+    queryset = Author.objects.all().prefetch_related("follows")
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        # Add in a QuerySet of all the users posts
-        context['object_list'] = Post.objects.filter(authors=self.object)
+        context['author_post_list'] = Post.objects.all().select_related("authors").filter(authors=self.object)
         context['author'] = self.object
         return context
 
 
 def follow_user(request, pk):
-    follow_user = Author.objects.get(id=pk)
-    if request.method == "POST":
-        current_user_profile = request.user
-        action = request.POST['follow']
-        if action == "unfollow":
-            current_user_profile.follows.remove(follow_user)
-        elif action == "follow":
-            current_user_profile.follows.add(follow_user)
-    return render(request, "registration/author_detail.html", {"follow_user": follow_user})
+    author_obj = Author.objects.get(id=pk)
+    current_user_obj = Author.objects.get(id=request.user.id)
+    following = author_obj.follows.all().prefetch_related("follows")
+
+    if pk != current_user_obj.id:
+        if current_user_obj in following:
+            author_obj.follows.remove(current_user_obj.id)
+        else:
+            author_obj.follows.add(current_user_obj.id)
+    return HttpResponseRedirect(reverse("author-detail", args=[author_obj.id]))
 
 
 class PostListView(ListView):
     model = Post
     template_name = "blog/post_list.html"
     ordering = ["-id"]
+    queryset = Post.objects.all().prefetch_related("authors")
 
 
 class PostDetailView(DetailView):
     model = Post
     template_name = "blog/post_detail.html"
+    queryset = Post.objects.all().prefetch_related("authors")
 
     def get_context_data(self, **kwargs):
         context = super(PostDetailView, self).get_context_data(**kwargs)
