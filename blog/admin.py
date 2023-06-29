@@ -1,46 +1,71 @@
 from django.contrib import admin
-from django.contrib.auth.admin import UserAdmin
+from django.contrib.auth.admin import UserAdmin as DjangoUserAdmin
+from django.utils.translation import gettext as _
 
 
 from blog.models import Post, Author, Category, Comment
 
 
 @admin.register(Author)
-class AuthorAdmin(UserAdmin):
-    list_display = UserAdmin.list_display + ("bio",
-                                             "date_of_birth")
+class UserAdmin(DjangoUserAdmin):
+    """Define admin model for custom User model with no email field."""
 
-    fieldsets = UserAdmin.fieldsets + (
-        (("Additional info", {"fields": (
-            "bio",
-            "date_of_birth",
-            "avatar",
-            "facebook_url",
-            "twitter_url",
-            "instagram_url",
-            "follows",
-            )}),)
-    )
-    add_fieldsets = UserAdmin.add_fieldsets + (
+    fieldsets = (
+        (None, {"fields": ("email", "password")}),
+        (_("Personal info"), {"fields": ("first_name", "last_name")}),
         (
-            (
+            _("Permissions"),
+            {
+                "fields": (
+                    "is_active",
+                    "is_staff",
+                    "is_superuser",
+                    "groups",
+                    "user_permissions",
+                )
+            },
+        ),
+        (_("Important dates"), {"fields": ("last_login", "date_joined")}),
+        (
+            _(
                 "Additional info",
-                {
-                    "fields": (
-                        "first_name",
-                        "last_name",
-                        "bio",
-                        "date_of_birth",
-                        "avatar",
-                        "facebook_url",
-                        "twitter_url",
-                        "instagram_url",
-                        "follows",
-                    )
-                },
             ),
-        )
+            {
+                "fields": (
+                    "bio",
+                    "date_of_birth",
+                    "avatar",
+                    "facebook_url",
+                    "twitter_url",
+                    "instagram_url",
+                    "follows",
+                )
+            },
+        ),
     )
+    add_fieldsets = (
+        (
+            None,
+            {
+                "classes": ("wide",),
+                "fields": (
+                    "email",
+                    "password1",
+                    "password2",
+                    "bio",
+                    "date_of_birth",
+                    "avatar",
+                    "facebook_url",
+                    "twitter_url",
+                    "instagram_url",
+                    "follows",
+                ),
+            },
+        ),
+    )
+    list_display = ("email", "first_name", "last_name", "is_staff")
+    search_fields = ("email", "first_name", "last_name")
+    ordering = ("email",)
 
 
 @admin.register(Post)

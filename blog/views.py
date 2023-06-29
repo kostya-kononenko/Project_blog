@@ -1,12 +1,24 @@
 from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth import authenticate, login
 
-from django.views.generic import ListView, DetailView, CreateView, UpdateView, DeleteView
+from django.views.generic import (
+    ListView,
+    DetailView,
+    CreateView,
+    UpdateView,
+    DeleteView,
+)
 from django.urls import reverse_lazy, reverse
 from django.views import View
 
 import blog
-from blog.forms import RegisterUserForm, PostForm, RegisterEditUserForm, CommentForm, LoginForm
+from blog.forms import (
+    RegisterUserForm,
+    PostForm,
+    RegisterEditUserForm,
+    CommentForm,
+    LoginForm,
+)
 from blog.models import Post, Category, Author, Comment
 from django.http import HttpResponseRedirect
 from django.contrib.auth.views import PasswordChangeView
@@ -19,12 +31,10 @@ class LoginPageView(View):
 
     def get(self, request):
         form = self.form_class()
-        message = ''
-        return render(request, self.template_name, context={
-            "form": form,
-            "message": message
-        }
-                      )
+        message = ""
+        return render(
+            request, self.template_name, context={"form": form, "message": message}
+        )
 
     def post(self, request):
         form = self.form_class(request.POST)
@@ -37,10 +47,9 @@ class LoginPageView(View):
                 login(request, user)
                 return redirect("/")
         message = "Login failed!"
-        return render(request, self.template_name, context={
-            "form": form,
-            "message": message}
-                      )
+        return render(
+            request, self.template_name, context={"form": form, "message": message}
+        )
 
 
 class AuthorRegisterView(CreateView):
@@ -80,8 +89,10 @@ class AuthorDetailView(DetailView):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        context['author_post_list'] = Post.objects.all().select_related("authors").filter(authors=self.object)
-        context['author'] = self.object
+        context["author_post_list"] = (
+            Post.objects.all().select_related("authors").filter(authors=self.object)
+        )
+        context["author"] = self.object
         return context
 
 

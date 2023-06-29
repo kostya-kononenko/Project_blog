@@ -23,7 +23,6 @@
               {{ post.title }}
               - {{ post.authors.first_name }}
               - {{ post.post_date }}
-              - {{ post.total_likes }} Likes
               - <a href="{% url "blog:post-detail" post.id %}"><i class="fa-solid fa-share" style="color: #2C009F"></i> </a>
               <p>{{ post.snippet}}</p>
             </div>
