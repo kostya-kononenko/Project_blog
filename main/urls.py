@@ -40,4 +40,5 @@ urlpatterns = [
     path("accounts/register/edit/", AuthorEditView.as_view(), name="author-register-edit"),
     path("accounts/password/edit/", AuthorEditPasswordView.as_view(), name="author-password-change"),
     path("accounts/password/password_success/", password_success, name="author-password-success"),
+    path("api/", include("api.urls", namespace="api")),
               ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

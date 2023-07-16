@@ -1,6 +1,4 @@
-from rest_framework import routers
-from django.urls import path, include
-from rest_framework import routers
+from django.urls import path
 
 from blog.views import (
     PostListView,
@@ -13,15 +11,8 @@ from blog.views import (
     CategoryCreateView,
     CategoryUpdateView,
     CategoryDeleteView,
-    LikeView,
-    CommentCreateView, PostViewSet, AuthorViewSet, CommentViewSet, CategoryViewSet
+    LikeView, CommentCreateView,
 )
-
-router = routers.DefaultRouter()
-router.register("posts", PostViewSet)
-router.register("authors", AuthorViewSet)
-router.register("comments", CommentViewSet)
-router.register("category`s", CategoryViewSet)
 
 
 urlpatterns = [
@@ -45,8 +36,6 @@ urlpatterns = [
         name="category-delete",
     ),
     path("like/<int:pk>", LikeView, name="like_post"),
-
-    path("api/", include(router.urls)),
 
 ]
 

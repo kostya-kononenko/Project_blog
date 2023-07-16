@@ -58,6 +58,9 @@ class Author(AbstractUser):
     def count_following(self):
         return Author.objects.filter(follows=self).count()
 
+    def __str__(self):
+        return f"{self.first_name} {self.last_name}"
+
     class Meta:
         verbose_name = "author"
         verbose_name_plural = "authors"

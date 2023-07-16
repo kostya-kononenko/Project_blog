@@ -1,6 +1,5 @@
 from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth import authenticate, login
-from rest_framework import viewsets
 
 
 from django.views.generic import (
@@ -13,7 +12,6 @@ from django.views.generic import (
 from django.urls import reverse_lazy, reverse
 from django.views import View
 
-import blog
 from blog.forms import (
     RegisterUserForm,
     PostForm,
@@ -25,8 +23,6 @@ from blog.models import Post, Category, Author, Comment
 from django.http import HttpResponseRedirect
 from django.contrib.auth.views import PasswordChangeView
 from django.contrib.auth.forms import PasswordChangeForm
-
-from blog.serializers import PostSerializer, AuthorSerializer, CommentSerializer, CategorySerializer
 
 
 class LoginPageView(View):
@@ -205,23 +201,3 @@ class CommentCreateView(CreateView):
     def form_valid(self, form):
         form.instance.post_id = self.kwargs["pk"]
         return super().form_valid(form)
-
-
-class PostViewSet(viewsets.ModelViewSet):
-    queryset = Post.objects.all()
-    serializer_class = PostSerializer
-
-
-class AuthorViewSet(viewsets.ModelViewSet):
-    queryset = Author.objects.all()
-    serializer_class = AuthorSerializer
-
-
-class CommentViewSet(viewsets.ModelViewSet):
-    queryset = Comment.objects.all()
-    serializer_class = CommentSerializer
-
-
-class CategoryViewSet(viewsets.ModelViewSet):
-    queryset = Category.objects.all()
-    serializer_class = CategorySerializer
